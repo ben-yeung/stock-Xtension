@@ -62,18 +62,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                                 return;
                             }
                             console.log("Successfully saved style id")
-                        });
-                        chrome.storage.local.set({
-                            activeTabId: tabId
-                        }, () => {
-                            if (chrome.runtime.lastError) {
-                                console.log("ERROR OCCURRED SETTING ACTIVE TAB ID")
-                                return;
-                            }
-                        });
-                        chrome.storage.local.get('styles', (result) => {
                             console.log(result.styles)
-                        })
+                        });
                     })
                 }, 500)
                 
