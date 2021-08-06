@@ -3,7 +3,6 @@ chrome.runtime.onInstalled.addListener(() => {
         // Stores variables in local storage
         // Manifest v3 may cut background.js after a certain amount of  time
         // To access: chrome.storage.local.get('name', data => {});
-        styles: new Map(),
         activeTabId: ''
     });
 });
@@ -19,25 +18,15 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 10);
             console.log(style_id)
         }
-
-        chrome.storage.local.get('styles', styles_data => {
+        chrome.storage.local.set({
+            tabId: style_id
+        }, () => {
             if (chrome.runtime.lastError) {
-                console.log("Failure getting styles dict");
+                console.log("ERROR OCCURRED")
                 return;
             }
-            styles_data.set(tabId, style_id);
-            chrome.storage.local.set({
-                styles: styles_data,
-                activeTabId: tabId
-            }, () => {
-                if (chrome.runtime.lastError) {
-                    console.log("ERROR OCCURRED")
-                    return;
-                }
-                console.log('successfully saved new style id')
-                console.log(styles_data)
-            });
-        });        
+            console.log("Successfully saved style id")
+        });
 
         return true;
 
