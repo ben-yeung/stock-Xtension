@@ -12,6 +12,7 @@ setTimeout(function() {
             document.getElementById('product-highbid').innerHTML = `Highest Bid: ${response.payload.highest_bid} ${response.payload.highest_bid_size}`
             document.getElementById('product-lowask').innerHTML = `Lowest Ask: ${response.payload.lowest_ask} ${response.payload.lowest_ask_size}`
             document.getElementById('product-lastsale').innerHTML = `Last Sale: ${response.payload.last_sale} ${response.payload.last_sale_size}`
+            document.getElementById('product-72hr').innerHTML = `${response.payload.last_72hr} Sales in Last 72 hours`
             
             document.getElementById('product-size').style = 'display: block'
             document.getElementById('product-size-buttons').style = 'display: block'
@@ -23,7 +24,7 @@ setTimeout(function() {
         }
 
     })
-}, 1200)
+}, 1500)
 
 document.getElementById('sizesubmit').addEventListener('click', () => {
             
@@ -35,9 +36,10 @@ document.getElementById('sizesubmit').addEventListener('click', () => {
         if (response.message === 'success') {
             document.getElementById('product-title').innerHTML = `${response.payload.title}`
             document.getElementById('product-retail').innerHTML = `Retail: ~ ${response.payload.retail}`
-            document.getElementById('product-highbid').innerHTML = `Highest Bid: ${response.payload.highest_bid} ${response.payload.highest_bid_size}`
-            document.getElementById('product-lowask').innerHTML = `Lowest Ask: ${response.payload.lowest_ask} ${response.payload.lowest_ask_size}`
-            document.getElementById('product-lastsale').innerHTML = `Last Sale: ${response.payload.last_sale} ${response.payload.last_sale_size}`
+            document.getElementById('product-highbid').innerHTML = `Highest Bid: ${response.payload.highest_bid} (US ${size})`
+            document.getElementById('product-lowask').innerHTML = `Lowest Ask: ${response.payload.lowest_ask} (US ${size})`
+            document.getElementById('product-lastsale').innerHTML = `Last Sale: ${response.payload.last_sale} (US ${size})`
+            document.getElementById('product-72hr').innerHTML = `${response.payload.last_72hr} Sales in Last 72 hours`
             
             document.getElementById('product-size').style = 'display: block'
             document.getElementById('product-size-buttons').style = 'display: block'
@@ -45,6 +47,7 @@ document.getElementById('sizesubmit').addEventListener('click', () => {
             document.getElementById('product-error').style = 'display: none'
         } else {
             document.getElementById('product-error').style = 'display: block'
+            document.getElementById('product-url').style =  'display: none'
         }
     })
 })
@@ -61,6 +64,7 @@ document.getElementById('sizereset').addEventListener('click', () => {
             document.getElementById('product-highbid').innerHTML = `Highest Bid: ${response.payload.highest_bid} ${response.payload.highest_bid_size}`
             document.getElementById('product-lowask').innerHTML = `Lowest Ask: ${response.payload.lowest_ask} ${response.payload.lowest_ask_size}`
             document.getElementById('product-lastsale').innerHTML = `Last Sale: ${response.payload.last_sale} ${response.payload.last_sale_size}`
+            document.getElementById('product-72hr').innerHTML = `${response.payload.last_72hr} Sales in Last 72 hours`
             
             document.getElementById('product-size').style = 'display: block'
             document.getElementById('product-size-buttons').style = 'display: block'

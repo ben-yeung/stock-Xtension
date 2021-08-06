@@ -144,7 +144,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             return;
                         }
 
-                        console.log(dataStockX)
+                        //console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
                         console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
                         console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
@@ -165,6 +165,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         let lowest_ask_size = `(US ${res.market.lowestAskSize})`;
                         let last_sale = res.market.lastSale == 0 ? 'N/A' : `$${res.market.lastSale}`;
                         let last_sale_size = res.market.lastSaleSize == '' ? '' : `(US ${res.market.lastSaleSize})`;
+                        let last_72hr = res.market.salesLast72Hours;
                         let url = `https://stockx.com/${res.urlKey}`
                         sendResponse({
                             message: "success",
@@ -177,6 +178,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                                 lowest_ask_size: lowest_ask_size,
                                 last_sale: last_sale,
                                 last_sale_size: last_sale_size,
+                                last_72hr: last_72hr,
                                 url: url
                             }
                         })
