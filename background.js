@@ -3,7 +3,8 @@ chrome.runtime.onInstalled.addListener(() => {
         // Stores variables in local storage
         // Manifest v3 may cut background.js after a certain amount of  time
         // To access: chrome.storage.local.get('name', data => {});
-        activeTabId: ''
+        activeTabId: '',
+        styles: {}
     });
 });
 
@@ -17,25 +18,33 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             console.log('NIKE PAGE FOUND');
             style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 10);
             console.log(style_id)
+        } else {
+            return;
         }
-        chrome.storage.local.set({
-            tabId: style_id
-        }, () => {
-            if (chrome.runtime.lastError) {
-                console.log("ERROR OCCURRED")
-                return;
-            }
-            console.log("Successfully saved style id")
-        });
+
+        chrome.storage.local.get('styles', (result) => {
+            result.styles[tabId] = style_id
+            chrome.storage.local.set({
+                styles: result.styles
+            }, () => {
+                if (chrome.runtime.lastError) {
+                    console.log("ERROR SAVING STYLE ID TO STYLES")
+                    return;
+                }
+                console.log("Successfully saved style id")
+            });
+            chrome.storage.local.get('styles', (result) => {
+                console.log(result.styles)
+            })
+        })
 
         return true;
-
     }
 });
 
-chrome.tabs.onActivated.addListener((tabId) => {
+chrome.tabs.onActivated.addListener((info) => {
     chrome.storage.local.set({
-        activeTabId: tabId
+        activeTabId: info.tabId
     }, () => {
         if (chrome.runtime.lastError) {
             console.log("ERROR OCCURRED")
@@ -83,61 +92,70 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // } 
     if (request.message === "get_product") {
         console.log("get_product received on backend");
-        chrome.storage.local.get('style_id', data => {
+        chrome.storage.local.get('activeTabId', data => {
             if (chrome.runtime.lastError) {
-                console.log("ERROR OCCURRED GETTING STYLE_ID")
+                console.log("ERROR OCCURRED GETTING ACTIVE TAB ID")
                 return;
             }
-            let api_call = `https://stockx.com/api/browse?_search=${data.style_id}`;
-            console.log(api_call);
+            let tabId = data.activeTabId
+            chrome.storage.local.get('styles', data => {
+                if (chrome.runtime.lastError) {
+                    console.log("ERROR OCCURRED GETTING STYLES")
+                    return;
+                }
+                let api_call = `https://stockx.com/api/browse?_search=${data.styles[tabId]}`;
+                console.log(api_call);
 
-            fetch(api_call).then(function (res) {
-                if (res.status !== 200) {
-                    console.log("Error")
+                fetch(api_call).then(function (res) {
+                    if (res.status !== 200) {
+                        console.log("Error")
+                        sendResponse({
+                            message: "fail"
+                        });
+                        return
+                    }
+                    console.log("Success")
+
+                    res.json().then(function (dataStockX) {
+                        console.log(dataStockX)
+
+                        if (dataStockX.Products.length == 0) {
+                            console.log("Product array empty")
+                            sendResponse({
+                                message: "failed"
+                            })
+                            return;
+                        }
+
+                        let stockxID = dataStockX.Products[0].styleId;
+                        console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
+                        console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
+
+                        if (!stockxID.includes(data.styles[tabId])) {
+                            sendResponse({
+                                message: "failed"
+                            })
+                            return;
+                        }
+
+                        let productTitle = dataStockX.Products[0].title
+                        console.log(dataStockX.Products[0].title)
+                        let retail = dataStockX.Products[0].retailPrice
+                        sendResponse({
+                            message: "success",
+                            payload: {
+                                title: productTitle,
+                                retail: retail
+                            }
+                        })
+                    })
+
+                }).catch(function (err) {
                     sendResponse({
                         message: "fail"
                     });
-                    return
-                }
-                console.log("Success")
-
-                res.json().then(function (dataStockX) {
-                    console.log(dataStockX)
-
-                    if (dataStockX.Products.length == 0) {
-                        console.log("Product array empty")
-                        sendResponse({
-                            message: "failed"
-                        })
-                        return;
-                    }
-
-                    let stockxID = dataStockX.Products[0].styleId;
-                    console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
-                    console.log(`LOCAL ID RETURNED: ${data.style_id}`)
-
-                    if (!stockxID.includes(data.style_id)) {
-                        sendResponse({
-                            message: "failed"
-                        })
-                        return;
-                    }
-
-                    let productTitle = dataStockX.Products[0].title
-                    console.log(dataStockX.Products[0].title)
-                    sendResponse({
-                        message: "success",
-                        payload: {
-                            title: productTitle
-                        }
-                    })
                 })
-
-            }).catch(function (err) {
-                sendResponse({
-                    message: "fail"
-                });
-            })
+            });
         });
 
         return true;
