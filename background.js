@@ -63,6 +63,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                             }
                             console.log("Successfully saved style id")
                         });
+                        chrome.storage.local.set({
+                            activeTabId: tabId
+                        }, () => {
+                            if (chrome.runtime.lastError) {
+                                console.log("ERROR OCCURRED SETTING ACTIVE TAB ID")
+                                return;
+                            }
+                        });
                         chrome.storage.local.get('styles', (result) => {
                             console.log(result.styles)
                         })
@@ -85,6 +93,7 @@ chrome.tabs.onActivated.addListener((info) => {
             console.log("ERROR OCCURRED SETTING ACTIVE TAB ID")
             return;
         }
+        console.log(`Active Tab Set: ${info.tabId}`)
     });
 })
 
@@ -147,8 +156,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                         console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
-                        // console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
-                        // console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
+                        console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
+                        console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
 
                         if (!stockxID.includes(data.styles[tabId])) {
                             sendResponse({

@@ -19,7 +19,7 @@ setTimeout(function() {
             document.getElementById('product-url').innerHTML = `<a href="${response.payload.url}" target="_blank" style="color:white">View On StockX</a>`
             document.getElementById('product-error').style =  'display: none'
         } else {
-            document.getElementById('product-title').innerHTML = `Could not find this product on StockX. <br><br> This page might not be supported or there is not a StockX listing for this product. <br><br> If this is a mistake try refreshing product page.`
+            document.getElementById('product-title').innerHTML = `Could not find this product on StockX. <br><br> Check Style Code! Not all Women's Versions of shoes are on StockX. <br><br> This page also might not be supported  yet. <br><br> If this is a mistake try refreshing product page.`
         }
 
     })
@@ -67,7 +67,7 @@ document.getElementById('sizereset').addEventListener('click', () => {
             document.getElementById('product-url').style = 'display: block'
             document.getElementById('product-error').style =  'display: none'
         } else {
-            document.getElementById('product-title').innerHTML = `Could not find this product on StockX. <br><br> This page might not be supported or there is not a StockX listing for this product. <br><br> If this is a mistake try refreshing product page.`
+            document.getElementById('product-title').innerHTML = `Could not find this product on StockX. <br><br> Check Style Code! Not all Women's Versions of shoes are on StockX. <br><br> This page also might not be supported yet. <br><br> If this is a mistake try refreshing product page.`
         }
 
     })
