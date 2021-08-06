@@ -1,6 +1,8 @@
 # stock-Xtension
 
-## Currently supports nike.com and adidas products
+## Supported Sites:
+* nike.com
+* adidas.com
 
 ## Installation
 * This extension is not currently published
