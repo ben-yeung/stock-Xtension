@@ -29,6 +29,7 @@
         "scripting"
     ],
     "host_permissions": [
-        "https://www.nike.com/t/*"
+        "https://www.nike.com/t/*",
+        "https://www.adidas.com/*"
     ]
 }

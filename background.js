@@ -18,7 +18,12 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             console.log('NIKE PAGE FOUND');
             style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 10);
             console.log(style_id)
+        } else if (tab.url.match('(http|https):\/\/www.adidas.com\/*\/.*')) {
+            console.log('ADIDAS PAGE FOUND');
+            style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 6);
+            console.log(style_id)
         } else {
+            console.log("Site Not Supported")
             return;
         }
 

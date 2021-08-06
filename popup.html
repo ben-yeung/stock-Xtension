@@ -59,12 +59,22 @@
             color: red;
             font-size: 16px;
             padding-top: 5px;
+            width: 80%;
         }
 
         #product-url {
             padding-top: 20px;
             cursor: pointer;
             text-decoration: underline;
+        }
+
+        #footer {
+            font-size: 12px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
         }
     </style>
 </head>
@@ -101,10 +111,16 @@
     </div>
 
     <div id='product-error' style="display: none">
-        No results found with entered size. Please try again.
+        No results found with entered size. Try including 'W' for Womens sizing or 'Y' / 'C' for Kids sizing etc
     </div>
 
     <div id='product-url' style="display: none">
+    </div>
+
+
+    <div id='footer'>
+        Developed by <a href="https://github.com/ben-yeung" target="_blank" style="color: white">Benjamin Yeung</a> | <a
+            href="https://github.com/ben-yeung/stock-Xtension" target="_blank" style="color: white">View Source</a>
     </div>
 
     <script src="./scripts/popup_script.js"></script>
