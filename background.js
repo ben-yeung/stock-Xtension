@@ -160,13 +160,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         let res = dataStockX.Products[0];
                         let productTitle = res.title;
                         console.log(res.title);
-                        let retail = res.retailPrice;
-                        let highest_bid = res.market.highestBid;
-                        let highest_bid_size = res.market.highestBidSize;
-                        let lowest_ask = res.market.lowestAsk;
-                        let lowest_ask_size = res.market.lowestAskSize;
-                        let last_sale = res.market.lastSale;
-                        let last_sale_size = res.market.lastSaleSize;
+                        let retail = `$${res.retailPrice}`;
+                        let highest_bid = `$${res.market.highestBid}`;
+                        let highest_bid_size = `(US ${res.market.highestBidSize})`;
+                        let lowest_ask = `$${res.market.lowestAsk}`;
+                        let lowest_ask_size = `(US ${res.market.lowestAskSize})`;
+                        let last_sale = res.market.lastSale == 0 ? 'N/A' : `$${res.market.lastSale}`;
+                        let last_sale_size = res.market.lastSaleSize == '' ? '' : `(US ${res.market.lastSaleSize})`;
                         sendResponse({
                             message: "success",
                             payload: {
@@ -191,5 +191,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
         return true;
-    }
+    } 
 });

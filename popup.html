@@ -83,13 +83,19 @@
     <div id='product-lastsale' style="margin-bottom: 5px">
     </div>
 
-    <div id='product-size'>
+    <div id='product-size' style="display: none">
+        <form>
+            <input type="text" id="sizeselect" name="sizeselect" placeholder="Enter a size">
+        </form>
     </div>
 
-    <div id='product-size-buttons'>
+    <div id='product-size-buttons' style="display: none">
+        <input type="submit" id="sizesubmit" class="sizebutton" value="Submit">
+        <input type="submit" id="sizereset" class="sizebutton" value="Reset">
     </div>
 
-    <div id='product-error'>
+    <div id='product-error' style="display: none">
+        No results found with entered size. Please try again.
     </div>
 
     <script src="./scripts/popup_script.js"></script>
