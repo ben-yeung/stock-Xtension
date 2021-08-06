@@ -1,7 +1,7 @@
 # stock-Xtension
 
 ## Preview of Popup as of 08/06/2021
-![Popup Preview](https://ibb.co/Bs2F24Z)
+![Popup Preview](https://i.ibb.co/vz4R4sP/Preview-08-06.png)
 
 ## 🖥️ Supported Sites
 * [Nike](https://nike.com)
