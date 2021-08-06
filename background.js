@@ -3,13 +3,14 @@ chrome.runtime.onInstalled.addListener(() => {
         // Stores variables in local storage
         // Manifest v3 may cut background.js after a certain amount of  time
         // To access: chrome.storage.local.get('name', data => {});
-        styleId: ''
+        styles: new Map(),
+        activeTabId: ''
     });
 });
 
 console.log("BACKGROUND script start")
 
-function updateStyles(tabId, changeInfo, tab) {
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && /^http/.test(tab.url)) {
         let style_id = ''
 
@@ -19,35 +20,41 @@ function updateStyles(tabId, changeInfo, tab) {
             console.log(style_id)
         }
 
-        chrome.storage.local.get('styles', data => {
+        chrome.storage.local.get('styles', styles_data => {
             if (chrome.runtime.lastError) {
-                sendResponse({
-                    message: "fail"
-                });
+                console.log("Failure getting styles dict");
                 return;
             }
-            sendResponse({
-                message: "success",
-                payload: data.name
+            styles_data.set(tabId, style_id);
+            chrome.storage.local.set({
+                styles: styles_data,
+                activeTabId: tabId
+            }, () => {
+                if (chrome.runtime.lastError) {
+                    console.log("ERROR OCCURRED")
+                    return;
+                }
+                console.log('successfully saved new style id')
+                console.log(styles_data)
             });
-        });
-
-        chrome.storage.local.set({
-            styles: style_id
-        }, () => {
-            if (chrome.runtime.lastError) {
-                console.log("ERROR OCCURRED")
-                return;
-            }
-            console.log('successfully saved new style id')
-        });
+        });        
 
         return true;
 
     }
-}
-chrome.tabs.onUpdated.addListener(updateStyles);
-chrome.tabs.onActivated.addListener(updateStyles);
+});
+
+chrome.tabs.onActivated.addListener((tabId) => {
+    chrome.storage.local.set({
+        activeTabId: tabId
+    }, () => {
+        if (chrome.runtime.lastError) {
+            console.log("ERROR OCCURRED")
+            return;
+        }
+        console.log('successfully saved active tabId')
+    });
+})
 
 //runtime from background sends to foreground, popup, or options (whichever one cathces first)
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
