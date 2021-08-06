@@ -8,57 +8,83 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
-console.log("BACKGROUND script start")
-
+// When a page loads check if it's a valid footsite product page, store style id under active tab id
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && /^http/.test(tab.url)) {
-        let style_id = ''
 
-        if (tab.url.match('(http|https):\/\/www.nike.com\/t\/.*')) {
-            console.log('NIKE PAGE FOUND');
-            style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 10);
-            console.log(style_id)
-        } else if (tab.url.match('(http|https):\/\/www.adidas.com\/*\/.*')) {
-            console.log('ADIDAS PAGE FOUND');
-            style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 6);
-            console.log(style_id)
-        } else {
-            console.log("Site Not Supported")
-            return;
-        }
+        chrome.scripting.executeScript({
+                target: {
+                    tabId: tabId
+                },
+                files: ["./scripts/foreground.js"]
+            })
+            .then(() => {
+                console.log("foreground.js injected")
+                let style_id = ''
 
-        chrome.storage.local.get('styles', (result) => {
-            result.styles[tabId] = style_id
-            chrome.storage.local.set({
-                styles: result.styles
-            }, () => {
-                if (chrome.runtime.lastError) {
-                    console.log("ERROR SAVING STYLE ID TO STYLES")
+                // Different logic for handling style codes for certain footsites
+                if (tab.url.match('(http|https):\/\/www.nike.com\/t\/.*')) {
+                    console.log('NIKE PAGE FOUND');
+                    style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 10);
+                    console.log(style_id)
+                } else if (tab.url.match('(http|https):\/\/www.adidas.com\/*\/.*')) {
+                    console.log('ADIDAS PAGE FOUND');
+                    style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 6);
+                    console.log(style_id)
+                } else if (tab.url.match('(http|https):\/\/www.champssports.com\/product\/.*')) {
+                    console.log('CHAMPS PAGE FOUND');
+                    chrome.tabs.sendMessage(tab.id, {
+                        text: "get_champsID"
+                    }, response => {
+                        if (chrome.runtime.lastError) {
+                            console.log("ERROR GETTING CHAMPS ID")
+                            return;
+                        }
+                        console.log(response.substring(0, 17).split(" ")[2])
+                    })
+                } else {
+                    console.log("Site Not Supported")
                     return;
                 }
-                console.log("Successfully saved style id")
-            });
-            chrome.storage.local.get('styles', (result) => {
-                console.log(result.styles)
+                // Style ids are stored per active tab id
+                // An active tab can have at most 1 id at a time
+                // The idea is that we store {"activetabid":"styleid"} to allow multiple tabs each with their own product
+                // Then when get_product is called we pull the activetabid then fetch the appropriate styleid
+                chrome.storage.local.get('styles', (result) => {
+                    result.styles[tabId] = style_id
+                    chrome.storage.local.set({
+                        styles: result.styles
+                    }, () => {
+                        if (chrome.runtime.lastError) {
+                            console.log("ERROR SAVING STYLE ID TO STYLES")
+                            return;
+                        }
+                        console.log("Successfully saved style id")
+                    });
+                    chrome.storage.local.get('styles', (result) => {
+                        console.log(result.styles)
+                    })
+                })
             })
-        })
+            .catch(err => console.log(err))
 
         return true;
     }
 });
 
+// This lets us set the active tab the user is looking at to ensure the correct product is queried
 chrome.tabs.onActivated.addListener((info) => {
     chrome.storage.local.set({
         activeTabId: info.tabId
     }, () => {
         if (chrome.runtime.lastError) {
-            console.log("ERROR OCCURRED")
+            console.log("ERROR OCCURRED SETTING ACTIVE TAB ID")
             return;
         }
-        console.log('successfully saved active tabId')
     });
 })
 
+// When tabs are closed remove their tab ids from the style codes object
 chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
     chrome.storage.local.get('styles', (result) => {
         delete result.styles[tabId]
@@ -69,49 +95,14 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
                 console.log("ERROR DELETING STYLE ID")
                 return;
             }
-            console.log("Successfully deleted")
         });
     })
 })
 
-//runtime from background sends to foreground, popup, or options (whichever one cathces first)
+// Listen for popup messages to get a product
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    // if (request.message === "get_name") {
-    //     chrome.storage.local.get('name', data => {
-    //         if (chrome.runtime.lastError) {
-    //             sendResponse({
-    //                 message: "fail"
-    //             });
-    //             return;
-    //         }
-    //         sendResponse({
-    //             message: "success",
-    //             payload: data.name
-    //         });
-    //     });
 
-    //     return true; // needed for asynchronous functions to let chrome know to keep line open
-    // } else if (request.message === "change_name") {
-    //     console.log("change name received on backend");
-    //     chrome.storage.local.set({
-    //         name: request.payload
-    //     }, () => {
-    //         if (chrome.runtime.lastError) {
-    //             sendResponse({
-    //                 message: "fail"
-    //             });
-    //             return;
-    //         }
-
-    //         sendResponse({
-    //             message: "success"
-    //         });
-    //     });
-
-    //     return true;
-    // } 
     if (request.message === "get_product") {
-        console.log("get_product received on backend");
         chrome.storage.local.get('activeTabId', data => {
             if (chrome.runtime.lastError) {
                 console.log("ERROR OCCURRED GETTING ACTIVE TAB ID")
@@ -139,7 +130,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         });
                         return
                     }
-                    console.log("Success")
 
                     res.json().then(function (dataStockX) {
 
@@ -153,8 +143,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                         console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
-                        console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
-                        console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
+                        // console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
+                        // console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
 
                         if (!stockxID.includes(data.styles[tabId])) {
                             sendResponse({
@@ -180,7 +170,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                                 retail: retail,
                                 highest_bid: highest_bid,
                                 highest_bid_size: highest_bid_size,
-                                lowest_ask:  lowest_ask,
+                                lowest_ask: lowest_ask,
                                 lowest_ask_size: lowest_ask_size,
                                 last_sale: last_sale,
                                 last_sale_size: last_sale_size,
@@ -198,5 +188,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
         return true;
-    } 
+    }
 });
