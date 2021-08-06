@@ -29,6 +29,6 @@
         "scripting"
     ],
     "host_permissions": [
-        "https://www.google.com/*"
+        "https://www.nike.com/t/*"
     ]
 }
