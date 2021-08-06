@@ -3,6 +3,7 @@
 ## 🖥️ Supported Sites
 * [Nike](https://nike.com)
 * [Adidas](https://adidas.com)
+* Champs and Footlocker WIP
 
 ## 🛠️ Installation
 * This extension is not currently published
