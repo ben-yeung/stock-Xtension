@@ -188,5 +188,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
         return true;
+    } else if (request.message == "set_style_id") {
+        chrome.storage.local.get('activeTabId', tabData => {
+            chrome.storage.local.get('styles', styleData => {
+                styleData.styles[tabData.activeTabId] = request.style_id
+                chrome.storage.local.set({
+                    styles: styleData.styles
+                }, () => {
+                    if (chrome.runtime.lastError) {
+                        console.log("ERROR SAVING STYLE ID TO STYLES")
+                        return;
+                    }
+                    console.log("Successfully saved style id")
+                });
+                chrome.storage.local.get('styles', (result) => {
+                    console.log(result.styles)
+                })
+            })
+        })
     }
 });
