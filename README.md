@@ -5,7 +5,7 @@
 * [Adidas](https://adidas.com)
 * Champs and Footlocker WIP
 
-## 🖼️ Preview of Popup as of 08/06/2021
+## 📷 Preview of Popup as of 08/06/2021
 ![Popup Preview](https://i.ibb.co/vz4R4sP/Preview-08-06.png)
 
 ## 🛠️ Installation
