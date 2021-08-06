@@ -7,7 +7,7 @@
 * See [How To Install Directly Install Chrome Extension (Zip File)](https://www.youtube.com/watch?v=vW8W19W_X0I) for details on how to manually install chrome extensions
 
 ## Debugging
-* Please note that this extension is still WIP and has bugs
+* Please note that this extension is still WIP and is subjected to bugs!
 * Useful guides I've found:
     * MutationObserver:
         * [MDN Web Docs on MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe)
