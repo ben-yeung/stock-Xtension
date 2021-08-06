@@ -40,7 +40,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                             console.log("ERROR GETTING CHAMPS ID")
                             return;
                         }
-                        console.log(response.substring(0, 17).split(" ")[2])
+                        console.log(response.substring(0, 17).split(" ")[2]);
+                        style_id = response.substring(0, 17).split(" ")[2];
                     })
                 } else {
                     console.log("Site Not Supported")
@@ -50,21 +51,24 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 // An active tab can have at most 1 id at a time
                 // The idea is that we store {"activetabid":"styleid"} to allow multiple tabs each with their own product
                 // Then when get_product is called we pull the activetabid then fetch the appropriate styleid
-                chrome.storage.local.get('styles', (result) => {
-                    result.styles[tabId] = style_id
-                    chrome.storage.local.set({
-                        styles: result.styles
-                    }, () => {
-                        if (chrome.runtime.lastError) {
-                            console.log("ERROR SAVING STYLE ID TO STYLES")
-                            return;
-                        }
-                        console.log("Successfully saved style id")
-                    });
+                setTimeout(() => {
                     chrome.storage.local.get('styles', (result) => {
-                        console.log(result.styles)
+                        result.styles[tabId] = style_id
+                        chrome.storage.local.set({
+                            styles: result.styles
+                        }, () => {
+                            if (chrome.runtime.lastError) {
+                                console.log("ERROR SAVING STYLE ID TO STYLES")
+                                return;
+                            }
+                            console.log("Successfully saved style id")
+                        });
+                        chrome.storage.local.get('styles', (result) => {
+                            console.log(result.styles)
+                        })
                     })
-                })
+                }, 500)
+                
             })
             .catch(err => console.log(err))
 
