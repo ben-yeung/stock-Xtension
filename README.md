@@ -1,6 +1,6 @@
 # stock-Xtension
 
-## 🖥️ Supported Sites:
+## 🖥️ Supported Sites
 * [Nike](https://nike.com)
 * [Adidas](https://adidas.com)
 
