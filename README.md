@@ -1,5 +1,8 @@
 # stock-Xtension
 
+## Preview of Popup as of 08/06/2021
+![Popup Preview](https://ibb.co/Bs2F24Z)
+
 ## 🖥️ Supported Sites
 * [Nike](https://nike.com)
 * [Adidas](https://adidas.com)
