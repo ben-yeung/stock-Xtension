@@ -1,5 +1,8 @@
 # stock-Xtension
 
+A Chrome extension that displays StockX resell details on a given shoe's product page. 
+Built on Manifest V3
+
 ## 🖥️ Supported Sites
 * [Nike](https://nike.com)
 * [Adidas](https://adidas.com)
