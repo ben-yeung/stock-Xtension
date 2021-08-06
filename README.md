@@ -1,2 +1,3 @@
 # stock-Xtension
-Chrome extension to compare a footsite's retail versus online resell
+
+## Currently supports nike.com and adidas products
