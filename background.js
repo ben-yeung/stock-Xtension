@@ -54,6 +54,21 @@ chrome.tabs.onActivated.addListener((info) => {
     });
 })
 
+chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+    chrome.storage.local.get('styles', (result) => {
+        delete result.styles[tabId]
+        chrome.storage.local.set({
+            styles: result.styles
+        }, () => {
+            if (chrome.runtime.lastError) {
+                console.log("ERROR DELETING STYLE ID")
+                return;
+            }
+            console.log("Successfully deleted")
+        });
+    })
+})
+
 //runtime from background sends to foreground, popup, or options (whichever one cathces first)
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // if (request.message === "get_name") {
@@ -117,7 +132,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     console.log("Success")
 
                     res.json().then(function (dataStockX) {
-                        console.log(dataStockX)
 
                         if (dataStockX.Products.length == 0) {
                             console.log("Product array empty")
@@ -127,6 +141,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             return;
                         }
 
+                        console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
                         console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
                         console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
@@ -137,15 +152,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             })
                             return;
                         }
-
-                        let productTitle = dataStockX.Products[0].title
-                        console.log(dataStockX.Products[0].title)
-                        let retail = dataStockX.Products[0].retailPrice
+                        let res = dataStockX.Products[0];
+                        let productTitle = res.title;
+                        console.log(res.title);
+                        let retail = res.retailPrice;
+                        let highest_bid = res.market.highestBid;
+                        let highest_bid_size = res.market.highestBidSize;
+                        let lowest_ask = res.market.lowestAsk;
+                        let lowest_ask_size = res.market.lowestAskSize;
                         sendResponse({
                             message: "success",
                             payload: {
                                 title: productTitle,
-                                retail: retail
+                                retail: retail,
+                                highest_bid: highest_bid,
+                                highest_bid_size: highest_bid_size,
+                                lowest_ask:  lowest_ask,
+                                lowest_ask_size: lowest_ask_size
                             }
                         })
                     })
