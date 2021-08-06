@@ -1,8 +1,8 @@
 # stock-Xtension
 
 ## Supported Sites:
-* nike.com
-* adidas.com
+* [Nike](https://nike.com)
+* [Adidas](https://adidas.com)
 
 ## Installation
 * This extension is not currently published
