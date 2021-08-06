@@ -167,6 +167,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         let lowest_ask_size = `(US ${res.market.lowestAskSize})`;
                         let last_sale = res.market.lastSale == 0 ? 'N/A' : `$${res.market.lastSale}`;
                         let last_sale_size = res.market.lastSaleSize == '' ? '' : `(US ${res.market.lastSaleSize})`;
+                        let url = `https://stockx.com/${res.urlKey}`
                         sendResponse({
                             message: "success",
                             payload: {
@@ -177,7 +178,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                                 lowest_ask:  lowest_ask,
                                 lowest_ask_size: lowest_ask_size,
                                 last_sale: last_sale,
-                                last_sale_size: last_sale_size
+                                last_sale_size: last_sale_size,
+                                url: url
                             }
                         })
                     })
