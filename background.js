@@ -118,7 +118,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     console.log("ERROR OCCURRED GETTING STYLES")
                     return;
                 }
-                let api_call = `https://stockx.com/api/browse?_search=${data.styles[tabId]}`;
+                var api_call;
+                if (request.size == "All") {
+                    api_call = `https://stockx.com/api/browse?_search=${data.styles[tabId]}`;
+                } else {
+                    api_call = `https://stockx.com/api/browse?_search=${data.styles[tabId]}&shoeSize=${request.size}`;
+                }
                 console.log(api_call);
 
                 fetch(api_call).then(function (res) {
@@ -160,6 +165,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         let highest_bid_size = res.market.highestBidSize;
                         let lowest_ask = res.market.lowestAsk;
                         let lowest_ask_size = res.market.lowestAskSize;
+                        let last_sale = res.market.lastSale;
+                        let last_sale_size = res.market.lastSaleSize;
                         sendResponse({
                             message: "success",
                             payload: {
@@ -168,7 +175,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                                 highest_bid: highest_bid,
                                 highest_bid_size: highest_bid_size,
                                 lowest_ask:  lowest_ask,
-                                lowest_ask_size: lowest_ask_size
+                                lowest_ask_size: lowest_ask_size,
+                                last_sale: last_sale,
+                                last_sale_size: last_sale_size
                             }
                         })
                     })

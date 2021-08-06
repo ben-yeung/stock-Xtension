@@ -31,40 +31,69 @@
         #product-title {
             font-weight: 800;
             font-size: 22px;
-            width: 70%;
+            width: 80%;
             height: auto;
             padding-bottom: 20px;
         }
 
-        #product-lowask {
+        #product-lastsale {
             padding-bottom: 20px;
+        }
+
+        #sizeselect {
+            padding: 5px;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .sizebutton {
+            width: 80px;
+            cursor: pointer;
+            padding: 5px 10px 5px 10px;
+            font-family: inherit;
+            margin-top: 15px;
+            text-decoration: none;
+        }
+
+        #product-error {
+            color: red;
+            font-size: 16px;
+            padding-top: 5px;
         }
     </style>
 </head>
 
 <body>
-    <div id='product-title'>
+    <div id='product-title' style="margin-bottom: 5px">
     </div>
 
     <div id='popup-loading'>
-        LOADING
+        LOADING...
     </div>
 
-    <div id='product-retail'>
+    <div id='product-retail' style="margin-bottom: 5px">
     </div>
 
-    <div id='product-highbid'>
+    <div id='product-highbid' style="margin-bottom: 5px">
     </div>
 
-    <div id='product-lowask'>
+    <div id='product-lowask' style="margin-bottom: 5px">
+    </div>
+
+    <div id='product-lastsale' style="margin-bottom: 5px">
     </div>
 
     <div id='product-size'>
     </div>
-    <div id='product-size-button'>
+
+    <div id='product-size-buttons'>
+    </div>
+
+    <div id='product-error'>
     </div>
 
     <script src="./scripts/popup_script.js"></script>
+    <script src="./scripts/find_size_script.js"></script>
 </body>
 
 </html>
