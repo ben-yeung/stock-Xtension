@@ -66,7 +66,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                         });
                     })
                 }, 500)
-                
+
             })
             .catch(err => console.log(err))
 
@@ -105,7 +105,7 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
 // Listen for popup messages to get a product
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
-    if (request.message === "get_product") {
+    if (request.message === 'get_product') {
         chrome.storage.local.get('activeTabId', data => {
             if (chrome.runtime.lastError) {
                 console.log("ERROR OCCURRED GETTING ACTIVE TAB ID")
@@ -191,7 +191,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
         return true;
-    } else if (request.message == "set_style_id") {
+    } else if (request.message === 'set_style_id') {
         chrome.storage.local.get('activeTabId', tabData => {
             chrome.storage.local.get('styles', styleData => {
                 styleData.styles[tabData.activeTabId] = request.style_id
@@ -209,5 +209,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 })
             })
         })
+        return true;
+    } else if (request.message === 'is_champs') {
+        chrome.tabs.query({
+                'active': true,
+                'windowId': chrome.windows.WINDOW_ID_CURRENT
+            },
+            function (tabs) {
+                if (chrome.runtime.lastError) {
+                    console.log("ERROR GETTING ACTIVE URL")
+                    return;
+                }
+                if (tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*')) {
+                    sendResponse({
+                        message: "true"
+                    })
+                } else {
+                    sendResponse({
+                        message: "false"
+                    })
+                }
+            }
+        );
+        return true;
     }
 });
