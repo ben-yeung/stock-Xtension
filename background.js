@@ -43,8 +43,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                         console.log(response.substring(0, 17).split(" ")[2]);
                         style_id = response.substring(0, 17).split(" ")[2];
                     })
-                } else if (tab.url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*')) {
-                    console.log('FINISHLINE PAGE FOUND');
+                } else if (tab.url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*') || tab.url.match('(http|https):\/\/www.jdsports.com\/store\/product\/.*')) {
+                    console.log('FINISHLINE/JDSPORTS PAGE FOUND');
                     style_id = tab.url.slice(tab.url.indexOf('styleId=')+8, tab.url.indexOf('&'));
                     if (!tab.url.includes('adidas')) {
                         style_id += tab.url.slice(tab.url.indexOf('colorId=') + 8, tab.url.indexOf('colorId=') + 11)
@@ -270,7 +270,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     return;
                 }
                 if (tabs[0] && (tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*') || tabs[0].url.match('(http|https):\/\/www.nike.com\/t\/.*') 
-                    || tabs[0].url.match('(http|https):\/\/www.adidas.com\/*\/.*') || tabs[0].url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*'))) {
+                    || tabs[0].url.match('(http|https):\/\/www.adidas.com\/*\/.*') || tabs[0].url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*') || tabs[0].url.match('(http|https):\/\/www.jdsports.com\/store\/product\/.*'))) {
                     sendResponse({
                         message: "true"
                     })
