@@ -76,7 +76,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
             })
             .catch(err => {
-                console.log('Site not in manifest host perms')
+                console.log(err)
                 chrome.storage.local.get('styles', (result) => {
                     if (result.styles[tabId]) {
                         delete result.styles[tabId]
@@ -88,7 +88,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                                 return;
                             }
                         });
-                        console.log("Deleted outdated style id for currenet tab found")
+                        console.log("Deleted outdated style id for current tab found")
                     }
                 })
             })
