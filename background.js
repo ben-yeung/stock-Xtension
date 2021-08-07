@@ -169,9 +169,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                         //console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
-                        let altstockxID = stockxID.replace('-', '')
-                        // console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
-                        // console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
+                        let altstockxID = stockxID.replaceAll('-', '')
+                        console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
+                        console.log(`ALT STOCKX STYLE ID RETURNED: ${altstockxID}`)
+                        console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
 
                         if (!stockxID.includes(data.styles[tabId]) && !altstockxID.includes(data.styles[tabId])) {
                             sendResponse({
@@ -247,6 +248,29 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     return;
                 }
                 if (tabs[0] && tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*')) {
+                    sendResponse({
+                        message: "true"
+                    })
+                } else {
+                    sendResponse({
+                        message: "false"
+                    })
+                }
+            }
+        );
+        return true;
+    } else if (request.message === 'is_valid_url') {
+        chrome.tabs.query({
+                'active': true,
+                'windowId': chrome.windows.WINDOW_ID_CURRENT
+            },
+            function (tabs) {
+                if (chrome.runtime.lastError) {
+                    console.log("ERROR GETTING ACTIVE URL")
+                    return;
+                }
+                if (tabs[0] && (tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*') || tabs[0].url.match('(http|https):\/\/www.nike.com\/t\/.*') 
+                    || tabs[0].url.match('(http|https):\/\/www.adidas.com\/*\/.*') || tabs[0].url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*'))) {
                     sendResponse({
                         message: "true"
                     })
