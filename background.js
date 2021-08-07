@@ -43,6 +43,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                         console.log(response.substring(0, 17).split(" ")[2]);
                         style_id = response.substring(0, 17).split(" ")[2];
                     })
+                } else if (tab.url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*')) {
+                    console.log('FINISHLINE PAGE FOUND');
+                    style_id = tab.url.slice(tab.url.indexOf('styleId=')+8, tab.url.indexOf('&'));
+                    if (!tab.url.includes('adidas')) {
+                        style_id += tab.url.slice(tab.url.indexOf('colorId=') + 8, tab.url.indexOf('colorId=') + 11)
+                    }
+                    
                 } else {
                     console.log("Site Not Supported")
                     return;
@@ -68,7 +75,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 }, 500)
 
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log('Site not in manifest host perms'))
 
         return true;
     }
@@ -146,10 +153,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                         //console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
+                        let altstockxID = stockxID.replace('-', '')
                         console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
                         console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
 
-                        if (!stockxID.includes(data.styles[tabId])) {
+                        if (!stockxID.includes(data.styles[tabId]) && !altstockxID.includes(data.styles[tabId])) {
                             sendResponse({
                                 message: "failed"
                             })
@@ -222,7 +230,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     console.log("ERROR GETTING ACTIVE URL")
                     return;
                 }
-                if (tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*')) {
+                if (tabs[0] && tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*')) {
                     sendResponse({
                         message: "true"
                     })
