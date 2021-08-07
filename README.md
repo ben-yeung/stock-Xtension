@@ -8,8 +8,8 @@ Built on Manifest V3
 ## 🖥️ Supported Sites
 - [x] [Nike](https://nike.com)
 - [x] [Adidas](https://adidas.com)
-- [] FLX Footsites WIP
-- [] FootAction WIP
+- [ ] FLX Footsites WIP
+- [ ] FootAction WIP
 
 ## 📷 Preview of Popup as of 08/06/2021
 
