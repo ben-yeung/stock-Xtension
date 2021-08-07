@@ -40,9 +40,9 @@ chrome.runtime.sendMessage({
                     document.getElementById('popup-loading').style = `display: none`
                     document.getElementById('product-title').innerHTML = `${response.payload.title}`
                     document.getElementById('product-retail').innerHTML = `Retail: ~ ${response.payload.retail}`
-                    document.getElementById('product-highbid').innerHTML = `Highest Bid: ${response.payload.highest_bid} (US ${size})`
-                    document.getElementById('product-lowask').innerHTML = `Lowest Ask: ${response.payload.lowest_ask} (US ${size})`
-                    document.getElementById('product-lastsale').innerHTML = `Last Sale: ${response.payload.last_sale} (US ${size})`
+                    document.getElementById('product-highbid').innerHTML = `Highest Bid: ${response.payload.highest_bid} (US ${size.toUpperCase()})`
+                    document.getElementById('product-lowask').innerHTML = `Lowest Ask: ${response.payload.lowest_ask} (US ${size.toUpperCase()})`
+                    document.getElementById('product-lastsale').innerHTML = `Last Sale: ${response.payload.last_sale} (US ${size.toUpperCase()})`
                     document.getElementById('product-72hr').innerHTML = `${response.payload.last_72hr} Sales in Last 72 hours`
 
                     document.getElementById('product-size').style = 'display: block'
