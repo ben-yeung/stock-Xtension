@@ -1,3 +1,4 @@
+
 # stock-Xtension
 
 A Chrome extension that displays StockX resell details on a given shoe's product page. View a shoe's highest bid, lowest ask, and last sale with size information. These details can also be filtered by a valid shoe size as found on StockX.
@@ -10,7 +11,10 @@ Built on Manifest V3
 * Champs and Footlocker WIP
 
 ## 📷 Preview of Popup as of 08/06/2021
-![Popup Preview](https://i.ibb.co/vz4R4sP/Preview-08-06.png)
+
+Example on Retail Site             |  Popup Modal
+:-------------------------:|:-------------------------:
+![Full_Screen_Demo](https://i.ibb.co/4gwgvPc/Preview-Screen-08-06.png)  |  ![Popup_Demo](https://i.ibb.co/DtPHyX8/Preview-08-06.png)
 
 ## 🛠️ Installation
 * This extension is not currently published
