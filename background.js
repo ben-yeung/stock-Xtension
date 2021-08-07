@@ -75,7 +75,23 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 }, 500)
 
             })
-            .catch(err => console.log('Site not in manifest host perms'))
+            .catch(err => {
+                console.log('Site not in manifest host perms')
+                chrome.storage.local.get('styles', (result) => {
+                    if (result.styles[tabId]) {
+                        delete result.styles[tabId]
+                        chrome.storage.local.set({
+                            styles: result.styles
+                        }, () => {
+                            if (chrome.runtime.lastError) {
+                                console.log("ERROR DELETING STYLE ID")
+                                return;
+                            }
+                        });
+                        console.log("Deleted outdated style id for currenet tab found")
+                    }
+                })
+            })
 
         return true;
     }
@@ -154,8 +170,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         //console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
                         let altstockxID = stockxID.replace('-', '')
-                        console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
-                        console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
+                        // console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
+                        // console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
 
                         if (!stockxID.includes(data.styles[tabId]) && !altstockxID.includes(data.styles[tabId])) {
                             sendResponse({
