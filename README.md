@@ -3,6 +3,10 @@
 
 A Chrome extension that displays StockX resell details on a given shoe's product page. View a shoe's highest bid, lowest ask, and last sale with size information. These details can also be filtered by a valid shoe size as found on StockX.
 
+Prices displayed are before StockX processing fees/shipping.
+
+This extension is not affiliated or in any way officially connected to StockX. 
+
 Built on Manifest V3
 
 ## 🖥️ Supported Sites
