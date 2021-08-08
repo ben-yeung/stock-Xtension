@@ -6,7 +6,7 @@ A Chrome extension that displays StockX resell details on a given shoe's product
 Built on Manifest V3
 
 ## 🖥️ Supported Sites
-- [x] Nike
+- [x] Nike + SNKRS
 - [x] Adidas
 - [x] FinishLine / JDSports
 - [ ] FLX Footsites WIP
