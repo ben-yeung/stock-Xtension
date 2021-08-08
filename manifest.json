@@ -1,6 +1,6 @@
 {
     "name": "StockXtension",
-    "description": "Display information on a given shoe's resell versus retail evaluation",
+    "description": "Display information on a given shoe's resell statistics directly from the product page.",
     "version": "0.1.0",
     "manifest_version": 3,
     "icons": {

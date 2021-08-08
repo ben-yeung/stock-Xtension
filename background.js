@@ -76,7 +76,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
             })
             .catch(err => {
-                console.log(err)
+                //console.log(err)
                 chrome.storage.local.get('styles', (result) => {
                     if (result.styles[tabId]) {
                         delete result.styles[tabId]
@@ -183,7 +183,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         let res = dataStockX.Products[0];
                         let productTitle = res.title;
                         console.log(res.title);
-                        let retail = `$${res.retailPrice}`;
+                        let retail = res.retailPrice == 0 ? 'Not Found 😢' : `$${res.retailPrice}`;
                         let highest_bid = `$${res.market.highestBid}`;
                         let highest_bid_size = `(US ${res.market.highestBidSize})`;
                         let lowest_ask = `$${res.market.lowestAsk}`;
