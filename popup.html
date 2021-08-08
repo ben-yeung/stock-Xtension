@@ -51,12 +51,24 @@
         }
 
         .sizebutton {
-            width: 80px;
+            width: 100px;
             cursor: pointer;
             padding: 5px 10px 5px 10px;
             font-family: inherit;
             margin-top: 15px;
             text-decoration: none;
+
+            border: white 2px solid;
+            color: white;
+            background: linear-gradient(to right, white 50%, green 50%);
+            background-size: 200% 100%;
+            background-position: right bottom;
+            transition: all .2s ease-out;
+        }
+
+        .sizebutton:hover {
+            background-position: left bottom;
+            color: green;
         }
 
         #product-size:focus,
@@ -72,7 +84,7 @@
         }
 
         #product-url {
-            padding-top: 20px;
+            margin-top: 30px;
             cursor: pointer;
             text-decoration: underline;
         }
@@ -118,7 +130,7 @@
     </div>
 
     <div id='product-size-buttons' style="display: none">
-        <input type="submit" id="sizesubmit" class="sizebutton" value="Submit">
+        <input type="submit" id="sizesubmit" class="sizebutton" value="Submit" style="margin-right: 5px">
         <input type="submit" id="sizereset" class="sizebutton" value="Reset">
     </div>
 
