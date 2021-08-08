@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;800&display=swap" rel="stylesheet">
 
-    <title>Document</title>
+    <title>stockXtension Popup</title>
     <style>
         body {
             width: 350px;
@@ -57,6 +57,11 @@
             font-family: inherit;
             margin-top: 15px;
             text-decoration: none;
+        }
+
+        #product-size:focus,
+        input:focus {
+            outline: none;
         }
 
         #product-error {
@@ -108,7 +113,7 @@
 
     <div id='product-size' style="display: none">
         <form>
-            <input type="text" id="sizeselect" name="sizeselect" placeholder="Enter a size">
+            <input type="text" id="sizeselect" name="sizeselect" placeholder="Enter a size" autocomplete="off">
         </form>
     </div>
 
