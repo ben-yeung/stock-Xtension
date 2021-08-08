@@ -184,12 +184,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         let productTitle = res.title;
                         console.log(res.title);
                         let retail = res.retailPrice == 0 ? 'Not Found 😢' : `$${res.retailPrice}`;
-                        let highest_bid = `$${res.market.highestBid}`;
-                        let highest_bid_size = `(US ${res.market.highestBidSize})`;
-                        let lowest_ask = `$${res.market.lowestAsk}`;
-                        let lowest_ask_size = `(US ${res.market.lowestAskSize})`;
+                        let highest_bid = res.market.highestBid == 0? 'No Bids Yet 🙈' : `$${res.market.highestBid}`;
+                        let highest_bid_size =  res.market.highestBid == 0? '' : `(US ${res.market.highestBidSize})`;
+                        let lowest_ask =  res.market.lowestAsk == 0? 'No Asks Yet 🙊' : `$${res.market.lowestAsk}`;
+                        let lowest_ask_size = res.market.lowestAsk == 0? '' : `(US ${res.market.lowestAskSize})`;
                         let last_sale = res.market.lastSale == 0 ? 'N/A' : `$${res.market.lastSale}`;
-                        let last_sale_size = res.market.lastSaleSize == '' ? '' : `(US ${res.market.lastSaleSize})`;
+                        let last_sale_size = res.market.lastSale == 0 ? '' : `(US ${res.market.lastSaleSize})`;
                         let last_72hr = res.market.salesLast72Hours;
                         let url = `https://stockx.com/${res.urlKey}`
                         sendResponse({
