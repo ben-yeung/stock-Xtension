@@ -15,7 +15,7 @@ Built on Manifest V3
 
 Example on Retail Site             |  Popup Modal
 :-------------------------:|:-------------------------:
-![Full_Screen_Demo](https://i.ibb.co/Bcy0YQx/Preview-Screen-08-07.png)  |  ![Popup_Demo](https://i.ibb.co/vHzj4jv/Preview-08-07.png)
+![Full_Screen_Demo](https://i.ibb.co/LJdLry5/Preview-Screen-08-07.png)  |  ![Popup_Demo](https://i.ibb.co/2tTzs5q/Preview-08-07.png)
 
 ## 🛠️ Installation
 * This extension is not currently published
