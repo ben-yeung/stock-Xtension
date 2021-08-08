@@ -11,11 +11,11 @@ Built on Manifest V3
 - [x] FinishLine / JDSports
 - [ ] FLX Footsites WIP
 
-## 📷 Preview of Popup as of 08/06/2021
+## 📷 Preview of Popup as of 08/07/2021
 
 Example on Retail Site             |  Popup Modal
 :-------------------------:|:-------------------------:
-![Full_Screen_Demo](https://i.ibb.co/4gwgvPc/Preview-Screen-08-06.png)  |  ![Popup_Demo](https://i.ibb.co/DtPHyX8/Preview-08-06.png)
+![Full_Screen_Demo](https://i.ibb.co/Bcy0YQx/Preview-Screen-08-07.png)  |  ![Popup_Demo](https://i.ibb.co/vHzj4jv/Preview-08-07.png)
 
 ## 🛠️ Installation
 * This extension is not currently published
