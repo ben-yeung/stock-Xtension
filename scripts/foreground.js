@@ -45,6 +45,5 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             })
         }, 800)
         return true;
-        
     }
 })
