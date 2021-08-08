@@ -185,9 +185,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         //console.log(dataStockX)
                         let stockxID = dataStockX.Products[0].styleId;
                         let altstockxID = stockxID.replaceAll('-', '')
-                        console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
-                        console.log(`ALT STOCKX STYLE ID RETURNED: ${altstockxID}`)
-                        console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
+                        // console.log(`STOCKX STYLE ID RETURNED: ${stockxID}`)
+                        // console.log(`ALT STOCKX STYLE ID RETURNED: ${altstockxID}`)
+                        // console.log(`LOCAL ID RETURNED: ${data.styles[tabId]}`)
 
                         if (!stockxID.includes(data.styles[tabId]) && !altstockxID.includes(data.styles[tabId])) {
                             sendResponse({

@@ -43,7 +43,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 message: "set_style_id",
                 style_id: style_id
             })
-        }, 500)
+        }, 800)
         return true;
         
     }
