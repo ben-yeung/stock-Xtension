@@ -27,6 +27,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                     console.log('NIKE PAGE FOUND');
                     style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 10);
                     console.log(style_id)
+                } else if (tab.url.match('(http|https):\/\/www.nike.com\/launch\/t\/.*')) {
+                    console.log('SNKRS PAGE FOUND');
+                    chrome.tabs.sendMessage(tab.id, {
+                        text: "get_snkrsID"
+                    })
+                    return true;
+
                 } else if (tab.url.match('(http|https):\/\/www.adidas.com\/*\/.*')) {
                     console.log('ADIDAS PAGE FOUND');
                     style_id = tab.url.split(/([^\/]*)$/)[1].substring(0, 6);
@@ -45,11 +52,11 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                     })
                 } else if (tab.url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*') || tab.url.match('(http|https):\/\/www.jdsports.com\/store\/product\/.*')) {
                     console.log('FINISHLINE/JDSPORTS PAGE FOUND');
-                    style_id = tab.url.slice(tab.url.indexOf('styleId=')+8, tab.url.indexOf('&'));
+                    style_id = tab.url.slice(tab.url.indexOf('styleId=') + 8, tab.url.indexOf('&'));
                     if (!tab.url.includes('adidas')) {
                         style_id += tab.url.slice(tab.url.indexOf('colorId=') + 8, tab.url.indexOf('colorId=') + 11)
                     }
-                    
+
                 } else {
                     console.log("Site Not Supported")
                     return;
@@ -141,6 +148,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     return;
                 }
                 var api_call;
+
+                if (data.styles[tabId] === '') {
+                    sendResponse({
+                        message: "fail"
+                    });
+                    return;
+                }
+
                 if (request.size == "All") {
                     api_call = `https://stockx.com/api/browse?_search=${data.styles[tabId]}`;
                 } else {
@@ -184,10 +199,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         let productTitle = res.title;
                         console.log(res.title);
                         let retail = res.retailPrice == 0 ? 'Not Found 😢' : `$${res.retailPrice}`;
-                        let highest_bid = res.market.highestBid == 0? 'No Bids Yet 🙈' : `$${res.market.highestBid}`;
-                        let highest_bid_size =  res.market.highestBid == 0? '' : `(US ${res.market.highestBidSize})`;
-                        let lowest_ask =  res.market.lowestAsk == 0? 'No Asks Yet 🙊' : `$${res.market.lowestAsk}`;
-                        let lowest_ask_size = res.market.lowestAsk == 0? '' : `(US ${res.market.lowestAskSize})`;
+                        let highest_bid = res.market.highestBid == 0 ? 'No Bids Yet 🙈' : `$${res.market.highestBid}`;
+                        let highest_bid_size = res.market.highestBid == 0 ? '' : `(US ${res.market.highestBidSize})`;
+                        let lowest_ask = res.market.lowestAsk == 0 ? 'No Asks Yet 🙊' : `$${res.market.lowestAsk}`;
+                        let lowest_ask_size = res.market.lowestAsk == 0 ? '' : `(US ${res.market.lowestAskSize})`;
                         let last_sale = res.market.lastSale == 0 ? 'N/A' : `$${res.market.lastSale}`;
                         let last_sale_size = res.market.lastSale == 0 ? '' : `(US ${res.market.lastSaleSize})`;
                         let last_72hr = res.market.salesLast72Hours;
@@ -229,7 +244,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         console.log("ERROR SAVING STYLE ID TO STYLES")
                         return;
                     }
-                    console.log("Successfully saved style id")
+                    console.log("Successfully saved style id EXTERNAL CALL")
                 });
                 chrome.storage.local.get('styles', (result) => {
                     console.log(result.styles)
@@ -259,6 +274,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             }
         );
         return true;
+    } else if (request.message === 'is_snkrs') {
+        chrome.tabs.query({
+                'active': true,
+                'windowId': chrome.windows.WINDOW_ID_CURRENT
+            },
+            function (tabs) {
+                if (chrome.runtime.lastError) {
+                    console.log("ERROR GETTING ACTIVE URL")
+                    return;
+                }
+                if (tabs[0] && tabs[0].url.match('(http|https):\/\/www.nike.com\/launch\/t\/.*')) {
+                    sendResponse({
+                        message: "true"
+                    })
+                } else {
+                    sendResponse({
+                        message: "false"
+                    })
+                }
+            }
+        );
+        return true;
     } else if (request.message === 'is_valid_url') {
         chrome.tabs.query({
                 'active': true,
@@ -269,8 +306,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     console.log("ERROR GETTING ACTIVE URL")
                     return;
                 }
-                if (tabs[0] && (tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*') || tabs[0].url.match('(http|https):\/\/www.nike.com\/t\/.*') 
-                    || tabs[0].url.match('(http|https):\/\/www.adidas.com\/*\/.*') || tabs[0].url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*') || tabs[0].url.match('(http|https):\/\/www.jdsports.com\/store\/product\/.*'))) {
+                if (tabs[0] && (tabs[0].url.match('(http|https):\/\/www.champssports.com\/product\/.*') || tabs[0].url.match('(http|https):\/\/www.nike.com\/t\/.*') ||
+                        tabs[0].url.match('(http|https):\/\/www.adidas.com\/*\/.*') || tabs[0].url.match('(http|https):\/\/www.finishline.com\/store\/product\/.*') || tabs[0].url.match('(http|https):\/\/www.jdsports.com\/store\/product\/.*') ||
+                        tabs[0].url.match('(http|https):\/\/www.nike.com\/launch\/t\/.*'))) {
                     sendResponse({
                         message: "true"
                     })
@@ -284,3 +322,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return true;
     }
 });
+
+function getStyleID(tabURL) {
+
+}

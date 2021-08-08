@@ -8,7 +8,7 @@ chrome.runtime.sendMessage({
                 sendResponse(document.getElementById('ProductDetails-tabs-details-panel').innerText)
             }
         });
-        
+
         const productSummary = document.querySelector('#ProductDetails-tabs-details-panel');
         console.log(`PRODUCT DETAILS: ${productSummary}`)
         if (productSummary) {
@@ -21,16 +21,30 @@ chrome.runtime.sendMessage({
                     style_id: changed_id
                 })
             });
-            
+
             observer.observe(productSummary, {
                 subtree: true,
                 childList: true,
                 characterData: true
-            
+
             });
         }
-        
+
     }
 });
 
-
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.text && (message.text == "get_snkrsID")) {
+        setTimeout(function () {
+            const details = document.querySelector('.description-text').innerHTML;
+            let style_id = details.slice(details.indexOf("SKU:") + 5, details.indexOf('</p>'));
+            console.log(`SNKRS ID: ${style_id}`);
+            chrome.runtime.sendMessage({
+                message: "set_style_id",
+                style_id: style_id
+            })
+        }, 500)
+        return true;
+        
+    }
+})
