@@ -23,7 +23,7 @@ chrome.runtime.sendMessage({
                     document.getElementById('product-error').style = 'display: none'
                 } else {
                     document.getElementById('popup-loading').style = `display: block`
-                    document.getElementById('popup-loading').innerHTML = `Could not find this product on StockX. <br><br> Check Style Code! Not all Women's Versions of shoes are on StockX. <br><br> This page also might not be supported  yet. <br><br> If this is a mistake try refreshing product page.`
+                    document.getElementById('popup-loading').innerHTML = `Could not find this product on StockX. <br><br> Check Style Code! Not all versions of shoes are on StockX. <br><br> This page also might not be supported  yet. <br><br> If this is a mistake try refreshing product page.`
                 }
 
             })
@@ -77,7 +77,7 @@ chrome.runtime.sendMessage({
                     document.getElementById('product-error').style = 'display: none'
                 } else {
                     document.getElementById('popup-loading').style = `display: block`
-                    document.getElementById('popup-loading').innerHTML = `Could not find this product on StockX. <br><br> Check Style Code! Not all Women's Versions of shoes are on StockX. <br><br> If this is a mistake try refreshing product page.`
+                    document.getElementById('popup-loading').innerHTML = `Could not find this product on StockX. <br><br> Check Style Code! Not all versions of shoes are on StockX. <br><br> If this is a mistake try refreshing product page.`
                 }
 
             })
