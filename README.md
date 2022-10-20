@@ -15,12 +15,6 @@ Overall an awesome project that allowed me to learn more on how the frontend and
 - [x] FinishLine / JDSports
 - [ ] FLX Footsites WIP
 
-## 📷 Preview of Popup as of 08/07/2021
-
-Example on Retail Site             |  Popup Modal
-:-------------------------:|:-------------------------:
-![Full_Screen_Demo](https://i.ibb.co/4Md1Gky/Preview-Screen-08-07.png)  |  ![Popup_Demo](https://i.ibb.co/2tTzs5q/Preview-08-07.png)
-
 ## 🛠️ Installation
 * This extension is not currently published
 * See [How To Install Directly Install Chrome Extension (Zip File)](https://www.youtube.com/watch?v=vW8W19W_X0I) for details on how to manually install chrome extensions
