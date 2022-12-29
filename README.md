@@ -7,7 +7,14 @@ This extension is not affiliated or in any way officially connected to StockX.
 
 Built on Manifest V3
 
-Overall an awesome project that allowed me to learn more on how the frontend and backend communicate, and the foundations of building a Chrome Extension on Manifest V3.
+## 📷 Preview of Popup as of 08/07/2021
+
+Example on Retail Site             |  Popup Modal
+:-------------------------:|:-------------------------:
+![Full_Screen_Demo](https://user-images.githubusercontent.com/51476377/210015870-eb4337fd-1d17-47d9-af1e-bcf738418cf3.png) | ![Preview-Screen-08-07](https://user-images.githubusercontent.com/51476377/210016029-278633d6-81c6-4a3c-8c5d-e42a45733f17.png)
+
+
+Overall an interactive project that allowed me to learn more on how the frontend and backend communicate for site extensions, and the foundations of building a Chrome Extension on Manifest V3.
 
 ## 🖥️ Supported Sites
 - [x] Nike + SNKRS
